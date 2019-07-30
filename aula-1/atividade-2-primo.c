@@ -33,18 +33,15 @@ int verificaPrimo(int valorEntrada)
 
 int main()
 {
-  // int valor = 1;
-  for (int valor = -10; valor <= 100; valor++)
-  {
+  int valor = 89;
 
-    if (verificaPrimo(valor))
-    {
-      printf("%d é primo? ", valor);
-      printf("É primo!\n");
-    }
-    else
-    {
-      // printf("Não é primo!\n");
-    }
+  printf("%d é primo? ", valor);
+  if (verificaPrimo(valor))
+  {
+    printf("É primo!\n");
+  }
+  else
+  {
+    printf("Não é primo!\n");
   }
 }
