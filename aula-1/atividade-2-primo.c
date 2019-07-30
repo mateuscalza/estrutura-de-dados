@@ -7,10 +7,10 @@
 #include <stdlib.h>
 #include <stdio.h>
 
-int verificaPrimo(int valorEntrada)
+int primo(int valor_entrada)
 {
   // Valor absoluto para funcionar com números negativos também
-  int valor = abs(valorEntrada);
+  int valor = abs(valor_entrada);
 
   // 0 é uma indeterminação, 1 é divisível apenas por ele mesmo
   if (valor == 0 || valor == 1)
@@ -36,7 +36,7 @@ int main()
   int valor = 89;
 
   printf("%d é primo? ", valor);
-  if (verificaPrimo(valor))
+  if (primo(valor))
   {
     printf("É primo!\n");
   }

@@ -6,9 +6,9 @@
 
 #include <stdio.h>
 
-double soma(double valor1, double valor2)
+double soma(double valor_1, double valor_2)
 {
-  return valor1 + valor2;
+  return valor_1 + valor_2;
 }
 
 int main()
