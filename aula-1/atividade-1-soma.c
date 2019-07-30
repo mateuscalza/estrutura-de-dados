@@ -15,4 +15,5 @@ int main()
 {
   printf("Soma de dois valores: \n");
   printf("Resultado: %.2f", soma(123, 456));
+  printf("\n\n");
 }
