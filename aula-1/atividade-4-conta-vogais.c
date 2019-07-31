@@ -11,20 +11,21 @@
 int numero_de_vogais(char *str)
 {
   int vogais = 0;
-  char *character = str;
-  while (*character != '\0')
+  char *caractere = str;
+  while (*caractere != '\0')
   {
+    char caractere_minusculo = tolower(*caractere);
     if (
-        tolower(*character) == 'a' ||
-        tolower(*character) == 'e' ||
-        tolower(*character) == 'i' ||
-        tolower(*character) == 'o' ||
-        tolower(*character) == 'u' ||
-        tolower(*character) == 'y')
+        caractere_minusculo == 'a' ||
+        caractere_minusculo == 'e' ||
+        caractere_minusculo == 'i' ||
+        caractere_minusculo == 'o' ||
+        caractere_minusculo == 'u' ||
+        caractere_minusculo == 'y')
     {
       vogais++;
     }
-    character++;
+    caractere++;
   }
   return vogais;
 }
