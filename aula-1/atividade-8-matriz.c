@@ -1,5 +1,5 @@
 /**
- * Conta pares.
+ * Matriz.
  *
  * @author Mateus Calza
 **/
@@ -26,7 +26,7 @@ float ** cria_matriz (int lin, int col) {
 void imprime(int lin, int col, float **mat) {
   for (int linha_atual = 0; linha_atual < lin; linha_atual++) {
     for (int coluna_atual = 0; coluna_atual < col; coluna_atual++) {
-      printf("%.0f ", mat[linha_atual][coluna_atual]);
+      printf("%.1f ", mat[linha_atual][coluna_atual]);
     }
     printf("\n");
   }

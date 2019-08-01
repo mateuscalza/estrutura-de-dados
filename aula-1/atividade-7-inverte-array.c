@@ -1,5 +1,5 @@
 /**
- * Conta pares.
+ * Inverte array.
  *
  * @author Mateus Calza
 **/
