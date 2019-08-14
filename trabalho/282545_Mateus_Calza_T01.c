@@ -11,7 +11,8 @@
 
 struct lista
 {
-  int info;
+  int valor;
+  struct lista *anterior;
   struct lista *proximo;
 };
 typedef struct lista Lista;
@@ -21,110 +22,97 @@ Lista *lista_cria(void)
   return NULL;
 }
 
-Lista *lista_insere(Lista *l, int i)
+//Inserção no início da lista
+Lista *lista_insere(Lista *lista, int valor)
 {
   Lista *novo = (Lista *)malloc(sizeof(Lista));
-  novo->info = i;
-  novo->proximo = l;
+
+  novo->valor = valor;
+  novo->proximo = lista;
+  novo->anterior = NULL;
+
+  if (lista != NULL)
+  {
+    lista->anterior = novo;
+  }
+
   return novo;
 }
 
-void lista_imprime(Lista *l)
+void lista_imprime(Lista *lista)
 {
-  Lista *p; //Variável auxiliar para percorrer a lista.
-  for (p = l; p != NULL; p = p->proximo)
+  Lista *atual; //Variável auxiliar para percorrer a lista.
+  for (atual = lista; atual != NULL; atual = atual->proximo)
   {
-    printf("info = % d\n", p->info);
+    printf("Valor: % d\n", atual->valor);
   }
 }
 
-int lista_vazia(Lista *l)
+Lista *lista_busca(Lista *lista, int valor)
 {
-  if (l == NULL)
-  {
-    return 1; //retorna 1 se a lista estiver vazia
-  }
-  else
-  {
-    return 0; //retorna 0 se a lista não estiver vazia
-  }
-}
+  Lista *atual;
 
-Lista *lista_busca(Lista *l, int valor)
-{
-  Lista *p;
-  for (p = l; p != NULL; p = p->proximo)
+  for (atual = lista; atual != NULL; atual = atual->proximo)
   {
-    if (p->info == valor)
+    if (atual->valor == valor)
     {
-      return p;
+      return atual;
     }
   }
-  return NULL; //Não achou o elemento
+
+  // Não achou o elemento
+  return NULL;
 }
 
-Lista *lista_retira(Lista *l, int v)
+Lista *lista_remove_item(Lista *lista, Lista *item)
 {
-  Lista *anterior = NULL;
-  Lista *p = l;
-  //procura um elemento na lista guardando o anterior
-  while (p != NULL && p->info != v)
+  // Refaz lista
+  if (item->anterior == NULL)
   {
-    anterior = p;
-    p = p->proximo;
+    if (item->proximo == NULL)
+    {
+      return NULL;
+    }
+    return item->proximo;
   }
-  //verifica se achou o elemento
-  if (p == NULL)
-    return l;
-  //retira o elemento da lista
-  if (anterior == NULL)
-  { //retira o elemento do início da lista
-    l = p->proximo;
-  }
-  else
-  { //retira o elemento do meio da lista
-    anterior->proximo = p->proximo;
-  }
-  free(p); //libera a posição do elemento
-  return l;
-}
 
-void lista_libera(Lista *l)
-{
-  Lista *p = l;
-  while (p != NULL)
+  // Remove a referência no anterior
+  item->anterior->proximo = item->proximo;
+  if (item->proximo != NULL)
   {
-    Lista *t = p->proximo; //Referência pro próximo elemento
-    free(p);               //Libera a memória apontada por p
-    p = t;                 //Faz p apontar para o próximo
+    // Remove a referência no posterior
+    item->proximo->anterior = item->anterior;
   }
+
+  free(item);
+
+  return lista;
 }
 
-Lista *lista_insere_ordenado(Lista *l, int v)
+Lista *lista_retira(Lista *lista, int v)
 {
-  Lista *novo;            //ponteiro para o novo elemento
-  Lista *anterior = NULL; //ponteiro para o elemento anterior
-  Lista *p = l;           //ponteiro para percorrer a lista
-  while (p != NULL && p->info < v)
-  { //procura posição de inserção
-    anterior = p;
-    p = p->proximo;
+  Lista *atual;
+  for (atual = lista; atual != NULL; atual = atual->proximo)
+  {
+    if (atual->valor == v)
+    {
+      printf("Removendo: %d\n", atual->valor);
+      lista = lista_remove_item(lista, atual);
+    }
   }
-  //cria novo elemento
-  novo = (Lista *)malloc(sizeof(Lista));
-  novo->info = v;
-  //encadeia o elemento
-  if (anterior == NULL)
-  { //insere o elemento no início
-    novo->proximo = l;
-    l = novo;
+  return lista;
+}
+
+Lista *lista_libera(Lista *lista)
+{
+  Lista *atual = lista;
+  while (atual != NULL)
+  {
+    Lista *proximo = atual->proximo;
+    free(atual);
+    atual = proximo;
   }
-  else
-  { //insere o elemento no meio da lista
-    novo->proximo = anterior->proximo;
-    anterior->proximo = novo;
-  }
-  return l;
+  return NULL;
 }
 
 int seleciona_atividade()
@@ -147,8 +135,9 @@ int seleciona_atividade()
 
 int main()
 {
-  Lista *l; //Declara uma lista não inicializada.
+  Lista *lista;
 
+  int valor;
   int opcao;
   do
   {
@@ -158,32 +147,40 @@ int main()
     {
     case 1:
       printf("\nCriar Lista\n");
+      lista = lista_cria();
       break;
     case 2:
       printf("\nInserir Registros\n");
+      printf("Digite o valor: ");
+
+      scanf("%d", &valor);
+
+      lista = lista_insere(lista, valor);
       break;
     case 3:
       printf("\nRetirar Registros\n");
+      printf("Digite o valor: ");
+
+      scanf("%d", &valor);
+
+      lista = lista_retira(lista, valor);
       break;
     case 4:
       printf("\nOrdenar Registros\n");
       break;
     case 5:
       printf("\nImprimir Lista\n");
+      lista_imprime(lista);
       break;
     case 6:
       printf("\nLiberar Lista\n");
+      lista = lista_libera(lista);
       break;
 
     default:
       break;
     }
   } while (opcao != 9);
-
-  // l = lista_cria();        //Cria e inicializa a lista como vazia.
-  // l = lista_insere(l, 23); //Insere na lista o elemento 23.
-  // l = lista_insere(l, 45); //Insere na lista o elemento 45.
-  // lista_imprime(l);
 
   return 0;
 }
