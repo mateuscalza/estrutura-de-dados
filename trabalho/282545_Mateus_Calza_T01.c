@@ -23,7 +23,6 @@ Lista *lista_cria(void)
 }
 
 //Inserção no início da lista
-
 Lista *lista_insere(Lista *lista, int valor)
 {
   Lista *novo = (Lista *)malloc(sizeof(Lista));
@@ -40,6 +39,9 @@ Lista *lista_insere(Lista *lista, int valor)
 
   return novo;
 }
+
+// Insere ordenado
+// Baseado na implementação do professor Kurt
 Lista *inserir_ordenado(Lista *lista, int valor)
 {
   Lista *novo = (Lista *)malloc(sizeof(Lista));
