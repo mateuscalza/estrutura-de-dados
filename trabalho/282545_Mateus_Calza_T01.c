@@ -40,6 +40,38 @@ Lista *lista_insere(Lista *lista, int valor)
 
   return novo;
 }
+Lista *inserir_ordenado(Lista *lista, int valor)
+{
+  Lista *novo = (Lista *)malloc(sizeof(Lista));
+  novo->valor = valor;
+  novo->anterior = NULL;
+  novo->proximo = NULL;
+
+  Lista *aux = lista;
+  if (aux == NULL)
+    return novo;
+  while (aux->proximo != NULL && aux->proximo->valor < valor)
+    aux = aux->proximo;
+  if (aux->anterior == NULL && aux->valor > valor)
+  {
+    novo->proximo = lista;
+    lista->anterior = novo;
+    return novo;
+  }
+  if (aux->proximo == NULL && aux->valor < valor)
+  {
+    aux->proximo = novo;
+    novo->anterior = aux;
+  }
+  else
+  {
+    novo->anterior = aux;
+    novo->proximo = aux->proximo;
+    aux->proximo = novo;
+    novo->proximo->anterior = novo;
+  }
+  return lista;
+}
 
 void lista_imprime(Lista *lista)
 {
@@ -108,6 +140,18 @@ Lista *lista_retira(Lista *lista, int v)
   return lista;
 }
 
+Lista *lista_ordena(Lista *lista)
+{
+  Lista *atual = lista;
+  Lista *lista_ordenada = NULL;
+  while (atual != NULL)
+  {
+    lista_ordenada = inserir_ordenado(lista_ordenada, atual->valor);
+    atual = atual->proximo;
+  }
+  return lista_ordenada;
+}
+
 Lista *lista_libera(Lista *lista)
 {
   Lista *atual = lista;
@@ -172,6 +216,7 @@ int main()
       break;
     case 4:
       printf("\nOrdenar Registros\n");
+      lista = lista_ordena(lista);
       break;
     case 5:
       printf("\nImprimir Lista\n");
