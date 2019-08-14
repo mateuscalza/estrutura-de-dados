@@ -23,6 +23,7 @@ Lista *lista_cria(void)
 }
 
 //Inserção no início da lista
+
 Lista *lista_insere(Lista *lista, int valor)
 {
   Lista *novo = (Lista *)malloc(sizeof(Lista));
@@ -33,6 +34,7 @@ Lista *lista_insere(Lista *lista, int valor)
 
   if (lista != NULL)
   {
+    // Se não for o início, aloca para o anterior
     lista->anterior = novo;
   }
 
@@ -41,9 +43,10 @@ Lista *lista_insere(Lista *lista, int valor)
 
 void lista_imprime(Lista *lista)
 {
-  Lista *atual; //Variável auxiliar para percorrer a lista.
+  Lista *atual;
   for (atual = lista; atual != NULL; atual = atual->proximo)
   {
+    // Exibe valor de cada item
     printf("Valor: % d\n", atual->valor);
   }
 }
@@ -56,6 +59,7 @@ Lista *lista_busca(Lista *lista, int valor)
   {
     if (atual->valor == valor)
     {
+      // Retorna elemento encontrado
       return atual;
     }
   }
@@ -94,6 +98,7 @@ Lista *lista_retira(Lista *lista, int v)
   Lista *atual;
   for (atual = lista; atual != NULL; atual = atual->proximo)
   {
+    // Procura por um valor específico
     if (atual->valor == v)
     {
       printf("Removendo: %d\n", atual->valor);
