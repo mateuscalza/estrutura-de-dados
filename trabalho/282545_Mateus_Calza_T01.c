@@ -1,3 +1,9 @@
+/**
+ * Listas duplamente encadeadas
+ *
+ * @author Mateus Calza
+**/
+
 #include <stdlib.h>
 #include <stdio.h>
 #include <ctype.h>
@@ -121,16 +127,63 @@ Lista *lista_insere_ordenado(Lista *l, int v)
   return l;
 }
 
+int seleciona_atividade()
+{
+  printf("---------------------\n");
+  printf("1 - Criar Lista\n");
+  printf("2 - Inserir Registros\n");
+  printf("3 - Retirar Registros\n");
+  printf("4 - Ordenar Registros\n");
+  printf("5 - Imprimir Lista\n");
+  printf("6 - Liberar Lista\n");
+  printf("9 - Sair\n");
+  printf("---------------------\n");
+
+  printf("Digite uma opção: ");
+  int opcao;
+  scanf("%d", &opcao);
+  return opcao;
+}
+
 int main()
 {
-  printf("Soma de dois valores: \n");
-  // printf("Resultado: %.2f", soma(123, 456));
-  // printf("\n\n");
-  Lista *l;                //Declara uma lista não inicializada.
-  l = lista_cria();        //Cria e inicializa a lista como vazia.
-  l = lista_insere(l, 23); //Insere na lista o elemento 23.
-  l = lista_insere(l, 45); //Insere na lista o elemento 45.
-  lista_imprime(l);
+  Lista *l; //Declara uma lista não inicializada.
+
+  int opcao;
+  do
+  {
+    opcao = seleciona_atividade();
+
+    switch (opcao)
+    {
+    case 1:
+      printf("\nCriar Lista\n");
+      break;
+    case 2:
+      printf("\nInserir Registros\n");
+      break;
+    case 3:
+      printf("\nRetirar Registros\n");
+      break;
+    case 4:
+      printf("\nOrdenar Registros\n");
+      break;
+    case 5:
+      printf("\nImprimir Lista\n");
+      break;
+    case 6:
+      printf("\nLiberar Lista\n");
+      break;
+
+    default:
+      break;
+    }
+  } while (opcao != 9);
+
+  // l = lista_cria();        //Cria e inicializa a lista como vazia.
+  // l = lista_insere(l, 23); //Insere na lista o elemento 23.
+  // l = lista_insere(l, 45); //Insere na lista o elemento 45.
+  // lista_imprime(l);
 
   return 0;
 }
