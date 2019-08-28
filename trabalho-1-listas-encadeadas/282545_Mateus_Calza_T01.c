@@ -2,6 +2,8 @@
  * Listas duplamente encadeadas
  *
  * @author Mateus Calza
+ *
+ * Baseado no exemplo do Professor Kurt Schneider
 **/
 
 #include <stdlib.h>
