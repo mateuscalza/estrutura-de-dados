@@ -100,7 +100,7 @@ void listar()
   printf("Alunos: \n");
   for (int indice = 0; indice < posicao; indice++)
   {
-    printf("Aluno %d\t-\t%s\t-\t%.2f\t-\t%s\t-\tDisciplina %d\n", notas[indice].idAluno, notas[indice].nome, notas[indice].nota, notas[indice].disciplina, notas[indice].idDisciplina);
+    printf("%s\t-\t%.2f\t-\t%s\n", notas[indice].nome, notas[indice].nota, notas[indice].disciplina);
   }
 }
 
