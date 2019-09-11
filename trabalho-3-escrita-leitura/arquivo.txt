@@ -1,0 +1,24 @@
+João;Estrutura de Dados;10
+João;Logica;8
+João;Matematica;7.5
+João;Estatistica;6
+João;Projetos;9
+João;Legislação;9.5
+João;Algoritmos;7
+João;Finanças;3
+Maria;Estrutura de Dados;10
+Maria;Logica;8
+Maria;Matematica;9
+Maria;Estatistica;6
+Maria;Projetos;9
+Maria;Legislação;9
+Maria;Algoritmos;7
+Maria;Finanças;3
+Pedro;Estrutura de Dados;10
+Pedro;Logica;10
+Pedro;Matematica;7
+Pedro;Estatistica;6
+Pedro;Projetos;9
+Pedro;Legislação;9
+Pedro;Algoritmos;7
+Pedro;Finanças;10
