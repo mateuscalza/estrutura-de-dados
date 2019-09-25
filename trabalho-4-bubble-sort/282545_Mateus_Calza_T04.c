@@ -1,18 +1,25 @@
+/**
+ * Bubble sort para int e char[]
+ *
+ * @author Mateus Calza
+**/
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 
 struct registro
 {
-  int id;
-  char *nome;
+  int codigo;
+  int idade;
+  char nome[80];
 };
 typedef struct registro Registro;
 
 char *randstring(size_t length)
 {
 
-  static char charset[] = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+  static char charset[] = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789 ";
   char *randomString = NULL;
 
   if (length)
@@ -34,7 +41,7 @@ char *randstring(size_t length)
   return randomString;
 }
 
-void bolha(Registro *lista, int tamanho)
+void ordenaNomeCrescente(Registro *registros, int tamanho)
 {
   int a, b;
   Registro troca;
@@ -43,37 +50,139 @@ void bolha(Registro *lista, int tamanho)
   {
     for (b = tamanho - 1; b >= a; b--)
     {
-      if (strcmp(lista[b - 1].nome, lista[b].nome) > 0)
+      if (strcmp(registros[b - 1].nome, registros[b].nome) > 0)
       {
-        // troca os elementos
-        troca = lista[b - 1];
-        lista[b - 1] = lista[b];
-        lista[b] = troca;
+        troca = registros[b - 1];
+        registros[b - 1] = registros[b];
+        registros[b] = troca;
       }
     }
   }
 }
 
-int main(void)
+void ordenaCodigoCrescente(Registro *registros, int tamanho)
+{
+  int a, b;
+  Registro troca;
+
+  for (a = 1; a < tamanho; a++)
+  {
+    for (b = tamanho - 1; b >= a; b--)
+    {
+      if (registros[b - 1].codigo > registros[b].codigo)
+      {
+        troca = registros[b - 1];
+        registros[b - 1] = registros[b];
+        registros[b] = troca;
+      }
+    }
+  }
+}
+
+void ordenaIdadeDecrescente(Registro *registros, int tamanho)
+{
+  int a, b;
+  Registro troca;
+
+  for (a = 1; a < tamanho; a++)
+  {
+    for (b = tamanho - 1; b >= a; b--)
+    {
+      if (registros[b - 1].idade < registros[b].idade)
+      {
+        troca = registros[b - 1];
+        registros[b - 1] = registros[b];
+        registros[b] = troca;
+      }
+    }
+  }
+}
+
+void insereRegistro(Registro *registros, int tamanho) {
+    printf("Digite o nome: \n");
+    fgets(registros[tamanho].nome, 80, stdin);
+    int size = strlen(registros[tamanho].nome);
+    registros[tamanho].nome[size-1] = '\0';
+    scanf(" %[^\t\n]s", registros[tamanho].nome);
+    printf("Digite o código: \n");
+    scanf("%d", &registros[tamanho].codigo);
+    printf("Digite a idade: \n");
+    scanf("%d", &registros[tamanho].idade);
+}
+
+void insereRegistroAleatorio(Registro *registros, int tamanho) {
+    registros[tamanho].codigo = rand() % 100;
+    registros[tamanho].idade = rand() % 100 + 1;
+    strcpy(registros[tamanho].nome, randstring(80));
+}
+
+void listar(Registro *registros, int tamanho) {
+  printf("Registros: \n");
+  for (int indice = 0; indice < tamanho; indice++)
+  {
+    printf("Código %d - %d anos - %s\n", registros[indice].codigo, registros[indice].idade, registros[indice].nome);
+  }
+  printf("\n");
+}
+
+void menu()
 {
   Registro registros[50];
-  printf("Gerados: \n");
-  for (int indice = 0; indice < 50; indice++)
-  {
-    registros[indice].id = indice;
-    registros[indice].nome = randstring(50);
-    printf("String gerada: %s\n", registros[indice].nome);
-  }
-  printf("\n");
+  int tamanho = 0;
 
-  bolha(registros, 50);
-
-  printf("Ordenados: \n");
-  for (int indice = 0; indice < 50; indice++)
-  {
-    printf("%s\n", registros[indice].nome);
+  for (int indice = 0; indice < 10; indice++) {
+      insereRegistroAleatorio(registros, tamanho);
+      tamanho++;
   }
-  printf("\n");
+
+  int opcao;
+  do
+  {
+    printf("-------------------------\n");
+    printf("Escolha uma opção:\n");
+    printf("1 - Inserir registro\n");
+    printf("2 - Ordenar em ordem crescente por código\n");
+    printf("3 - Ordenar em ordem crescente por nome\n");
+    printf("4 - Ordenar em ordem descrescente por idade\n");
+    printf("9 - Sair\n");
+    printf("-------------------------\n");
+    scanf("%d", &opcao);
+
+    switch (opcao)
+    {
+    case 1:
+      insereRegistro(registros, tamanho);
+      printf("\nInserido com sucesso!");
+      tamanho++;
+      break;
+
+    case 2:
+      ordenaCodigoCrescente(registros, tamanho);
+      listar(registros, tamanho);
+      break;
+
+    case 3:
+      ordenaNomeCrescente(registros, tamanho);
+      listar(registros, tamanho);
+      break;
+
+    case 4:
+      ordenaIdadeDecrescente(registros, tamanho);
+      listar(registros, tamanho);
+      break;
+
+    case 9:
+      exit(0);
+    default:
+      printf("\nOpção inválida.");
+    }
+    printf("\n\n");
+  } while (opcao != 9);
+}
+
+int main()
+{
+  menu();
 
   return 0;
 }
