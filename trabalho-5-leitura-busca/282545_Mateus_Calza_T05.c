@@ -22,6 +22,25 @@ typedef struct registro Registro;
 Registro registros[500];
 int tamanho = 0;
 
+char caractereMinusculo(char caractere)
+{
+  if (caractere >= 'A' && caractere <= 'Z')
+  {
+    return caractere + 32;
+  }
+  return caractere;
+}
+
+void minusculo(char string[])
+{
+  int indice = 0;
+
+  while (string[indice] != '\0')
+  {
+    string[indice] = caractereMinusculo(string[indice]);
+    indice++;
+  }
+}
 
 int validaMes(mes)
 {
@@ -88,7 +107,15 @@ void ordenar()
   {
     for (b = tamanho - 1; b >= a; b--)
     {
-      if (strcmp(registros[b - 1].nome, registros[b].nome) > 0)
+      char nomeAnterior[80];
+      strcpy(nomeAnterior, registros[b - 1].nome);
+      minusculo(nomeAnterior);
+
+      char nome[80];
+      strcpy(nome, registros[b].nome);
+      minusculo(nome);
+
+      if (strcmp(nomeAnterior, nome) > 0)
       {
         troca = registros[b - 1];
         registros[b - 1] = registros[b];
@@ -246,7 +273,11 @@ void removerBusca(char *busca)
 {
   for (int indice = 0; indice < tamanho; indice++)
   {
-    if (iniciaCom(registros[indice].nome, busca) == 1)
+    char nome[80];
+    strcpy(nome, registros[indice].nome);
+    minusculo(nome);
+
+    if (iniciaCom(nome, busca) == 1)
     {
       printf(
           "\nRemovendo %s de código %d",
@@ -274,6 +305,8 @@ void remover()
   busca[size - 1] = '\0';
   scanf(" %[^\t\n]s", busca);
 
+  minusculo(busca);
+
   printf("\nRegistros removidos: \n");
   removerBusca(busca);
 }
@@ -287,13 +320,20 @@ void buscar()
   busca[size - 1] = '\0';
   scanf(" %[^\t\n]s", busca);
 
+  minusculo(busca);
+  printf("\nLower: %s\n", busca);
+
   printf("Registros: \n");
   for (int indice = 0; indice < tamanho; indice++)
   {
-    if (iniciaCom(registros[indice].nome, busca) == 1)
+    char nome[80];
+    strcpy(nome, registros[indice].nome);
+    minusculo(nome);
+
+    if (iniciaCom(nome, busca) == 1)
     {
       printf(
-          "\nCódigo: %d\nNome: %s\nTelefone: %s\nData de nascimento: %d/%d/%d\n",
+          "%d\t%s\t%s\t%d/%d/%d\n",
           registros[indice].id,
           registros[indice].nome,
           registros[indice].telefone,
@@ -326,7 +366,7 @@ void listarInicial()
   printf("ID\tNome\tTelefone\tData de Nascimento\n");
   for (int indice = 0; indice < tamanho; indice++)
   {
-    if (strlen(registros[indice].nome) > 0 && registros[indice].nome[0] == inicial)
+    if (strlen(registros[indice].nome) > 0 && caractereMinusculo(registros[indice].nome[0]) == caractereMinusculo(inicial))
     {
 
       printf(
