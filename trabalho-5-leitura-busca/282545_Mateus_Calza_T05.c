@@ -19,7 +19,10 @@ struct registro
 };
 typedef struct registro Registro;
 
-void ordenaNomeCrescente(Registro *registros, int tamanho)
+Registro registros[50];
+int tamanho = 0;
+
+void ordenar()
 {
   int a, b;
   Registro troca;
@@ -38,11 +41,31 @@ void ordenaNomeCrescente(Registro *registros, int tamanho)
   }
 }
 
-void atualizaArquivo(Registro *registros, int tamanho)
+void exportar()
 {
+  FILE *arquivo = fopen("contato_unoesc.txt", "w");
+  if (arquivo == NULL)
+  {
+    printf("Erro ao abrir arquivo!\n");
+    return;
+  }
+
+  for (int indice = 0; indice < tamanho; indice++)
+  {
+    fprintf(
+        arquivo,
+        "%d;%s;%s;%d;%d;%d\n",
+        registros[indice].id,
+        registros[indice].nome,
+        registros[indice].telefone,
+        registros[indice].dia,
+        registros[indice].mes,
+        registros[indice].ano);
+  }
+  fclose(arquivo);
 }
 
-void insereRegistro(Registro *registros, int tamanho)
+void cadastrar()
 {
   // ID
   printf("Digite o ID: \n");
@@ -63,36 +86,85 @@ void insereRegistro(Registro *registros, int tamanho)
   scanf(" %[^\t\n]s", registros[tamanho].telefone);
 
   // Data de nascimento
-  printf("Digite a data de nascimento: \n");
+  printf("Digite a data de nascimento no formato dia/mês/ano: \n");
   scanf("%d/%d/%d", &registros[tamanho].dia, &registros[tamanho].mes, &registros[tamanho].ano);
 
-  // Atualiza arquivo
-  atualizaArquivo(registros, tamanho + 1);
+  tamanho++;
 }
 
-void listar(Registro *registros, int tamanho)
+void listar()
 {
   printf("Registros: \n");
   for (int indice = 0; indice < tamanho; indice++)
   {
     printf(
-      "\nCódigo: %d\nNome: %s\nTelefone: %s\nData de nascimento: %d/%d/%d\n",
-      registros[indice].id,
-      registros[indice].nome,
-      registros[indice].telefone,
-      registros[indice].dia,
-      registros[indice].mes,
-      registros[indice].ano
-    );
+        "\nCódigo: %d\nNome: %s\nTelefone: %s\nData de nascimento: %d/%d/%d\n",
+        registros[indice].id,
+        registros[indice].nome,
+        registros[indice].telefone,
+        registros[indice].dia,
+        registros[indice].mes,
+        registros[indice].ano);
   }
   printf("\n");
 }
 
+void importar()
+{
+
+  FILE *arquivo;
+  arquivo = fopen("contato_unoesc.txt", "r");
+
+  char linha[4098];
+  while (fgets(linha, 4098, arquivo))
+  {
+    if (strlen(linha) > 2)
+    {
+      char *token;
+      int parte = 0;
+      if (strlen(linha) > 0)
+      {
+        token = strtok(linha, ";");
+
+        while (token != NULL)
+        {
+          if (parte == 0)
+          {
+            sscanf(token, "%d", &(registros[tamanho].id));
+          }
+          else if (parte == 1)
+          {
+            strcpy(registros[tamanho].nome, token);
+          }
+          else if (parte == 2)
+          {
+            strcpy(registros[tamanho].telefone, token);
+          }
+          else if (parte == 3)
+          {
+            sscanf(token, "%d", &(registros[tamanho].dia));
+          }
+          else if (parte == 4)
+          {
+            sscanf(token, "%d", &(registros[tamanho].mes));
+          }
+          else if (parte == 5)
+          {
+            sscanf(token, "%d", &(registros[tamanho].ano));
+          }
+
+          token = strtok(NULL, ";");
+          parte++;
+        }
+        tamanho++;
+      }
+    }
+  }
+  fclose(arquivo);
+}
+
 void menu()
 {
-  Registro registros[50];
-  int tamanho = 0;
-
   int opcao;
   do
   {
@@ -111,14 +183,14 @@ void menu()
     switch (opcao)
     {
     case 1:
-      insereRegistro(registros, tamanho);
+      cadastrar();
+      exportar();
       printf("\nInserido com sucesso!");
-      tamanho++;
       break;
 
     case 4:
-      ordenaNomeCrescente(registros, tamanho);
-      listar(registros, tamanho);
+      ordenar();
+      listar();
       break;
 
     case 9:
@@ -132,6 +204,7 @@ void menu()
 
 int main()
 {
+  importar();
   menu();
 
   return 0;
