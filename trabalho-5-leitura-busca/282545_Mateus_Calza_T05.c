@@ -184,7 +184,6 @@ void menu()
     {
     case 1:
       cadastrar();
-      exportar();
       printf("\nInserido com sucesso!");
       break;
 
@@ -194,6 +193,7 @@ void menu()
       break;
 
     case 9:
+      exportar();
       exit(0);
     default:
       printf("\nOpção inválida.");
