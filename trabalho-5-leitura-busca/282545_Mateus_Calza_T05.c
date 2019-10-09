@@ -22,6 +22,63 @@ typedef struct registro Registro;
 Registro registros[500];
 int tamanho = 0;
 
+
+int validaMes(mes)
+{
+  if (mes >= 1 && mes <= 12)
+  {
+    return 1;
+  }
+  else
+  {
+    printf("Mês inválido!\n");
+    return 0;
+  }
+}
+
+int validaDia(dia, mes, ano)
+{
+  if (ano >= 1900 && ano <= 9999)
+  {
+    if (mes >= 1 && mes <= 12)
+    {
+      if ((dia >= 1 && dia <= 31) && (mes == 1 || mes == 3 || mes == 5 || mes == 7 || mes == 8 || mes == 10 || mes == 12))
+      {
+        return 1;
+      }
+      else if ((dia >= 1 && dia <= 30) && (mes == 4 || mes == 6 || mes == 9 || mes == 11))
+      {
+        return 1;
+      }
+      else if ((dia >= 1 && dia <= 28) && (mes == 2))
+      {
+        return 1;
+      }
+      else if (dia == 29 && mes == 2 && (ano % 400 == 0 || (ano % 4 == 0 && ano % 100 != 0)))
+      {
+        return 1;
+      }
+      else
+      {
+        printf("Dia inválido!\n");
+        return 0;
+      }
+    }
+    else
+    {
+      printf("Mês inválido!\n");
+      return 0;
+    }
+  }
+  else
+  {
+    printf("Ano inválido!\n");
+    return 0;
+  }
+
+  return 1;
+}
+
 void ordenar()
 {
   int a, b;
@@ -89,6 +146,12 @@ void cadastrar()
   printf("Digite a data de nascimento no formato dia/mês/ano: \n");
   scanf("%d/%d/%d", &registros[tamanho].dia, &registros[tamanho].mes, &registros[tamanho].ano);
 
+  if (validaDia(registros[tamanho].dia, registros[tamanho].mes, registros[tamanho].ano) == 0)
+  {
+    cadastrar();
+    return;
+  }
+
   tamanho++;
 }
 
@@ -124,6 +187,12 @@ void listarAniversariantes()
   int mes;
   printf("Digite o número do mês: \n");
   scanf("%d", &mes);
+
+  if (validaMes(mes) == 0)
+  {
+    listarAniversariantes();
+    return;
+  }
 
   printf("Aniversariantes: \n");
   int aniversariantesContagem = 0;
