@@ -104,10 +104,11 @@ int iniciaCom(char *a, char *b)
 void listar()
 {
   printf("Registros: \n");
+  printf("ID\tNome\tTelefone\tData de Nascimento\n");
   for (int indice = 0; indice < tamanho; indice++)
   {
     printf(
-        "\nCódigo: %d\nNome: %s\nTelefone: %s\nData de nascimento: %d/%d/%d\n",
+        "%d\t%s\t%s\t%d/%d/%d\n",
         registros[indice].id,
         registros[indice].nome,
         registros[indice].telefone,
@@ -118,27 +119,58 @@ void listar()
   printf("\n");
 }
 
-void aniversariantes()
+void listarAniversariantes()
 {
   int mes;
   printf("Digite o número do mês: \n");
   scanf("%d", &mes);
 
   printf("Aniversariantes: \n");
+  int aniversariantesContagem = 0;
+  printf("ID\tNome\tTelefone\tData de Nascimento\n");
   for (int indice = 0; indice < tamanho; indice++)
   {
-    if (mes == registros[indice].mes) {
+    if (mes == registros[indice].mes)
+    {
       printf(
-          "\nCódigo: %d\nNome: %s\nTelefone: %s\nData de nascimento: %d/%d/%d\n",
+          "%d\t%s\t%s\t%d/%d/%d\n",
           registros[indice].id,
           registros[indice].nome,
           registros[indice].telefone,
           registros[indice].dia,
           registros[indice].mes,
           registros[indice].ano);
+      aniversariantesContagem++;
     }
   }
   printf("\n");
+
+  if (aniversariantesContagem == 0)
+  {
+    printf("Sem aniversariantes no mês selecionado!\n");
+
+    int opcao;
+    printf("-------------------------\n");
+    printf("Escolha uma opção:\n");
+    printf("1 - Tentar outro mês\n");
+    printf("2 - Voltar ao menu principal\n");
+    printf("-------------------------\n");
+    scanf("%d", &opcao);
+
+    switch (opcao)
+    {
+    case 1:
+      listarAniversariantes();
+      break;
+    case 2:
+      printf("\nVoltando ao menu principal...");
+      break;
+
+    default:
+      printf("\nOpção inválida, voltando ao menu principal...");
+      break;
+    }
+  }
 }
 
 void removerBusca(char *busca)
@@ -152,7 +184,8 @@ void removerBusca(char *busca)
           registros[indice].nome,
           registros[indice].id);
 
-      for(int indiceRemocao = indice; indiceRemocao < tamanho - 1; indiceRemocao++) {
+      for (int indiceRemocao = indice; indiceRemocao < tamanho - 1; indiceRemocao++)
+      {
         registros[indiceRemocao] = registros[indiceRemocao + 1];
       }
 
@@ -221,12 +254,14 @@ void listarInicial()
   char inicial = busca[0];
 
   printf("Registros: \n");
+  printf("ID\tNome\tTelefone\tData de Nascimento\n");
   for (int indice = 0; indice < tamanho; indice++)
   {
     if (strlen(registros[indice].nome) > 0 && registros[indice].nome[0] == inicial)
     {
+
       printf(
-          "\nCódigo: %d\nNome: %s\nTelefone: %s\nData de nascimento: %d/%d/%d\n",
+          "%d\t%s\t%s\t%d/%d/%d\n",
           registros[indice].id,
           registros[indice].nome,
           registros[indice].telefone,
@@ -332,7 +367,7 @@ void menu()
 
     case 5:
       ordenar();
-      aniversariantes();
+      listarAniversariantes();
       break;
 
     case 6:
