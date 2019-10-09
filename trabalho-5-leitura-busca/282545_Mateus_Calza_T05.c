@@ -321,7 +321,6 @@ void buscar()
   scanf(" %[^\t\n]s", busca);
 
   minusculo(busca);
-  printf("\nLower: %s\n", busca);
 
   printf("Registros: \n");
   for (int indice = 0; indice < tamanho; indice++)
