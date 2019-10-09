@@ -92,10 +92,10 @@ void cadastrar()
   tamanho++;
 }
 
-
 int iniciaCom(char *a, char *b)
 {
-  if(strncmp(a, b, strlen(b)) == 0){ 
+  if (strncmp(a, b, strlen(b)) == 0)
+  {
     return 1;
   }
   return 0;
@@ -130,16 +130,51 @@ void buscar()
   printf("Registros: \n");
   for (int indice = 0; indice < tamanho; indice++)
   {
-    if (iniciaCom(registros[indice].nome, busca) == 1) {
+    if (iniciaCom(registros[indice].nome, busca) == 1)
+    {
       printf(
-        "\nCódigo: %d\nNome: %s\nTelefone: %s\nData de nascimento: %d/%d/%d\n",
-        registros[indice].id,
-        registros[indice].nome,
-        registros[indice].telefone,
-        registros[indice].dia,
-        registros[indice].mes,
-        registros[indice].ano
-      );
+          "\nCódigo: %d\nNome: %s\nTelefone: %s\nData de nascimento: %d/%d/%d\n",
+          registros[indice].id,
+          registros[indice].nome,
+          registros[indice].telefone,
+          registros[indice].dia,
+          registros[indice].mes,
+          registros[indice].ano);
+    }
+  }
+  printf("\n");
+}
+
+void listarInicial()
+{
+
+  printf("Digite a busca: \n");
+  char busca[80];
+  fgets(busca, 80, stdin);
+  int size = strlen(busca);
+  busca[size - 1] = '\0';
+  scanf(" %[^\t\n]s", busca);
+
+  if (strlen(busca) > 1)
+  {
+    printf("Apenas a letra inicial deve ser inserida. \n");
+  }
+
+  char inicial = busca[0];
+
+  printf("Registros: \n");
+  for (int indice = 0; indice < tamanho; indice++)
+  {
+    if (strlen(registros[indice].nome) > 0 && registros[indice].nome[0] == inicial)
+    {
+      printf(
+          "\nCódigo: %d\nNome: %s\nTelefone: %s\nData de nascimento: %d/%d/%d\n",
+          registros[indice].id,
+          registros[indice].nome,
+          registros[indice].telefone,
+          registros[indice].dia,
+          registros[indice].mes,
+          registros[indice].ano);
     }
   }
   printf("\n");
@@ -231,6 +266,11 @@ void menu()
     case 4:
       ordenar();
       listar();
+      break;
+
+    case 6:
+      ordenar();
+      listarInicial();
       break;
 
     case 9:
