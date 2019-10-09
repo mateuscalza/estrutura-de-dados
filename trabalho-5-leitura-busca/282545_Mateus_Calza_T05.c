@@ -92,6 +92,15 @@ void cadastrar()
   tamanho++;
 }
 
+
+int iniciaCom(char *a, char *b)
+{
+  if(strncmp(a, b, strlen(b)) == 0){ 
+    return 1;
+  }
+  return 0;
+}
+
 void listar()
 {
   printf("Registros: \n");
@@ -105,6 +114,33 @@ void listar()
         registros[indice].dia,
         registros[indice].mes,
         registros[indice].ano);
+  }
+  printf("\n");
+}
+
+void buscar()
+{
+  printf("Digite a busca: \n");
+  char busca[80];
+  fgets(busca, 80, stdin);
+  int size = strlen(busca);
+  busca[size - 1] = '\0';
+  scanf(" %[^\t\n]s", busca);
+
+  printf("Registros: \n");
+  for (int indice = 0; indice < tamanho; indice++)
+  {
+    if (iniciaCom(registros[indice].nome, busca) == 1) {
+      printf(
+        "\nCódigo: %d\nNome: %s\nTelefone: %s\nData de nascimento: %d/%d/%d\n",
+        registros[indice].id,
+        registros[indice].nome,
+        registros[indice].telefone,
+        registros[indice].dia,
+        registros[indice].mes,
+        registros[indice].ano
+      );
+    }
   }
   printf("\n");
 }
@@ -185,6 +221,11 @@ void menu()
     case 1:
       cadastrar();
       printf("\nInserido com sucesso!");
+      break;
+
+    case 3:
+      ordenar();
+      buscar();
       break;
 
     case 4:
