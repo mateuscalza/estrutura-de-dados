@@ -118,6 +118,29 @@ void listar()
   printf("\n");
 }
 
+void aniversariantes()
+{
+  int mes;
+  printf("Digite o número do mês: \n");
+  scanf("%d", &mes);
+
+  printf("Aniversariantes: \n");
+  for (int indice = 0; indice < tamanho; indice++)
+  {
+    if (mes == registros[indice].mes) {
+      printf(
+          "\nCódigo: %d\nNome: %s\nTelefone: %s\nData de nascimento: %d/%d/%d\n",
+          registros[indice].id,
+          registros[indice].nome,
+          registros[indice].telefone,
+          registros[indice].dia,
+          registros[indice].mes,
+          registros[indice].ano);
+    }
+  }
+  printf("\n");
+}
+
 void removerBusca(char *busca)
 {
   for (int indice = 0; indice < tamanho; indice++)
@@ -305,6 +328,11 @@ void menu()
     case 4:
       ordenar();
       listar();
+      break;
+
+    case 5:
+      ordenar();
+      aniversariantes();
       break;
 
     case 6:
