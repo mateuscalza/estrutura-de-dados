@@ -19,7 +19,7 @@ struct registro
 };
 typedef struct registro Registro;
 
-Registro registros[50];
+Registro registros[500];
 int tamanho = 0;
 
 void ordenar()
@@ -116,6 +116,41 @@ void listar()
         registros[indice].ano);
   }
   printf("\n");
+}
+
+void removerBusca(char *busca)
+{
+  for (int indice = 0; indice < tamanho; indice++)
+  {
+    if (iniciaCom(registros[indice].nome, busca) == 1)
+    {
+      printf(
+          "\nRemovendo %s de código %d",
+          registros[indice].nome,
+          registros[indice].id);
+
+      for(int indiceRemocao = indice; indiceRemocao < tamanho - 1; indiceRemocao++) {
+        registros[indiceRemocao] = registros[indiceRemocao + 1];
+      }
+
+      tamanho--;
+      removerBusca(busca);
+      return;
+    }
+  }
+}
+
+void remover()
+{
+  printf("Digite a busca para remoção: \n");
+  char busca[80];
+  fgets(busca, 80, stdin);
+  int size = strlen(busca);
+  busca[size - 1] = '\0';
+  scanf(" %[^\t\n]s", busca);
+
+  printf("\nRegistros removidos: \n");
+  removerBusca(busca);
 }
 
 void buscar()
@@ -256,6 +291,10 @@ void menu()
     case 1:
       cadastrar();
       printf("\nInserido com sucesso!");
+      break;
+
+    case 2:
+      remover();
       break;
 
     case 3:
